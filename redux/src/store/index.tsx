@@ -1,14 +1,9 @@
-import { combineReducers, compose, createStore } from "redux";
+import { combineReducers, createStore } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import postsReducer from "./posts";
 import userReducer from "./user";
-
-declare global {
-  interface Window {
-    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
-  }
-}
 
 const persistConfig = {
   key: "root",
@@ -22,12 +17,7 @@ const rootReducer = combineReducers({
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-const composeEnhancers =
-  (typeof window !== "undefined" &&
-    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
-  compose;
-
-const store = createStore(persistedReducer, composeEnhancers());
+const store = createStore(persistedReducer, composeWithDevTools());
 
 persistStore(store);
 
