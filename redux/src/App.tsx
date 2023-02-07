@@ -1,7 +1,21 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import { getUsername } from "./store/user/selectors";
+import LoginPage from "./pages/Login";
+import LogoutPage from "./pages/Logout";
+import CreatePostPage from "./pages/CreatePost";
+import PostsPage from "./pages/Posts";
 
-function App() {
-  return <h1>Redux</h1>;
-}
+const App = () => {
+  const username = useSelector(getUsername);
+
+  return (
+    <>
+      {username ? <LogoutPage /> : <LoginPage />}
+      {username && <CreatePostPage />}
+      <PostsPage />
+    </>
+  );
+};
 
 export default App;
